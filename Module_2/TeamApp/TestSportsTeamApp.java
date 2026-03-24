@@ -66,9 +66,9 @@ public class TestSportsTeamApp {
             // Ask user to continue. //
             System.out.print("  Continue? (y/n): ");
             continueChoice = input.nextLine();
-            System.out.println("\n\n  End of line...");
         }
-
+        
+        System.out.println("\n\n  End of line...");
         input.close();
     }// end of main method. //
     
