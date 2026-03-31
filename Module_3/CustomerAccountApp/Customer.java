@@ -7,7 +7,7 @@
 */
 
 // package declaration for the Customer class. //
-package Module_3;
+package Module_3.CustomerAccountApp;
 
 /*
  *  Customer class represents a customer with name, address, city, and zip code.

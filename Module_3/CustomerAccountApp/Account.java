@@ -7,7 +7,7 @@
 */
 
 // package declaration for the Account class. //
-package Module_3;
+package Module_3.CustomerAccountApp;
 
 // import statements for date handling. //
 import java.time.LocalDate;

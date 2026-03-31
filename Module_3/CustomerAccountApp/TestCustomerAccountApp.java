@@ -7,7 +7,7 @@
 */
 
 // package declaration for the TestCustomerAccountApp class. //
-package Module_3;
+package Module_3.CustomerAccountApp;
 
 // import statements for Scanner. //
 import java.util.Scanner;

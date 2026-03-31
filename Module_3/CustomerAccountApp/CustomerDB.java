@@ -7,7 +7,7 @@
 */
 
 // package declaration for the CustomerDB class. //
-package Module_3;
+package Module_3.CustomerAccountApp;
 
 /*
  *  CustomerDB class provides a method to retrieve Customer objects based on an ID.
