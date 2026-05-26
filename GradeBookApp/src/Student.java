@@ -1,11 +1,16 @@
+/*
+ * Student.java
+ * Represents a student with their course and grade information.
+ */
 public class Student {
 
     private String firstName;
     private String lastName;
     private String course;
     private String grade;
+    private String comments;
 
-    // Default Constructor
+    // Default Constructor. //
     public Student() {
 
     }
@@ -14,16 +19,17 @@ public class Student {
     public Student(String firstName,
                    String lastName,
                    String course,
-                   String grade) {
+                   String grade,
+                   String comments) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.course = course;
         this.grade = grade;
+        this.comments = comments;
     }
 
-    // Getters and Setters
-
+    // Getters and Setters.//
     public String getFirstName() {
         return firstName;
     }
@@ -56,13 +62,22 @@ public class Student {
         this.grade = grade;
     }
 
-    // toString Method
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    
+    // toString Method. //
     @Override
     public String toString() {
 
         return "First Name: " + firstName +
                "\nLast Name: " + lastName +
                "\nCourse: " + course +
-               "\nGrade: " + grade;
+               "\nGrade: " + grade +
+               "\nComments: " + comments;
     }
 }

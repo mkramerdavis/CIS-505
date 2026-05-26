@@ -1,3 +1,4 @@
+// Import Statements for the GUI Components and Layouts. //
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
@@ -16,6 +17,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+// Import Statements for the Event Handling and File I/O. //
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+/* 
+ * Main Application Class for the Grade Book Application.
+ */
 public class KramerGradeBookApp extends Application {
 
     @Override
@@ -96,17 +108,86 @@ public class KramerGradeBookApp extends Application {
         GridPane.setHgrow(cboGrade, Priority.ALWAYS);
         GridPane.setHgrow(txtComments, Priority.ALWAYS);
 
-        // Placeholder Event Handlers //
+        // Save Button Event Handler //
         btnSave.setOnAction(e -> {
-            
+            String firstName = txtFirstName.getText().trim();
+            String lastName = txtLastName.getText().trim();
+            String course = txtCourse.getText().trim();
+            String grade = cboGrade.getValue();
+            String comments = txtComments.getText().trim();
+
+            if (firstName.isEmpty() || lastName.isEmpty() || course.isEmpty() || grade == null) {
+                txtResults.setText("Please complete all required fields before saving.");
+                return;
+            }
+
+            Student student = new Student(firstName, lastName, course, grade, comments);
+
+            File file = new File("grades.csv");
+            boolean fileExists = file.exists();
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+
+                if (!fileExists) {
+                    writer.write(firstName + "," + lastName + "," + course + "," + grade + "," + comments.replace(",", " "));
+                    writer.newLine();
+                }
+
+                writer.write(firstName + "," + lastName + "," + course + "," + grade + "," + comments);
+                writer.newLine();
+
+                txtResults.setText("Grade entry saved successfully.\n\n" + student.toString());
+
+            } catch (IOException ex) {
+                txtResults.setText("Error saving grade entry: " + ex.getMessage());
+            }
         });
 
+        // View Grades Button Event Handler. //
         btnView.setOnAction(e -> {
-            
-        });
+            File file = new File("grades.csv");
 
+            if (!file.exists()) {
+                txtResults.setText("No saved grade entries were found.");
+                return;
+            }
+
+            StringBuilder output = new StringBuilder();
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean firstLine = true;
+
+                while ((line = reader.readLine()) != null) {
+
+                    if (firstLine) {
+                        firstLine = false;
+                        continue;
+                    }
+
+                    String[] data = line.split(",");
+
+                    if (data.length >= 5) {
+                        Student student = new Student(data[0], data[1], data[2], data[3], data[4]);
+                        output.append(student.toString()).append("\n\n");
+                    }
+                }  
+
+                txtResults.setText(output.toString());
+
+            } catch (IOException ex) {
+                txtResults.setText("Error reading grade entries: " + ex.getMessage());
+            }
+        });
+        
+        // Clear Button Event Handler. //
         btnClear.setOnAction(e -> {
-            
+            txtFirstName.clear();
+            txtLastName.clear();
+            txtCourse.clear();
+            cboGrade.setValue(null);
+            txtComments.clear();
+            txtResults.clear();
         });
 
         // GridPane Layout //
@@ -164,7 +245,7 @@ public class KramerGradeBookApp extends Application {
         );
 
         // Scene //
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 1000, 800);
 
         // Dynamic Scaling and Styling for Title. //
         lblTitle.styleProperty().bind(
@@ -320,6 +401,7 @@ public class KramerGradeBookApp extends Application {
         primaryStage.show();
     }
 
+    // Main Method to Launch the Application. //
     public static void main(String[] args) {
         launch(args);
     }
